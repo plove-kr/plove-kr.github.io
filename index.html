@@ -77,17 +77,23 @@
 
   /* ===== 헤더 ===== */
   .top { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-  .nav { height: 72px; display: flex; align-items: center; gap: 56px; }
+  .nav { height: 72px; display: flex; align-items: center; gap: 48px; }
   .logo { display: flex; align-items: baseline; gap: 8px; }
   .logo b { font-size: 22px; font-weight: 800; letter-spacing: 0.02em; color: var(--plove); }
   .logo span { font-size: 14px; font-weight: 600; color: var(--ink-2); }
-  .menu { display: flex; gap: 36px; font-size: 15.5px; font-weight: 600; color: var(--ink-2); }
+  .menu { display: flex; gap: 32px; font-size: 15.5px; font-weight: 600; color: var(--ink-2); }
   .menu a:hover { color: var(--ink); }
+  .menu > a[aria-current="page"], .dd-top[aria-current="page"] { color: var(--plove); }
+  .menu .shop { color: var(--heart); display: inline-flex; align-items: center; gap: 4px; }
+  .menu .shop:hover { color: #B85A0C; }
+  .menu .shop svg { width: 13px; height: 13px; }
   .nav .btn { margin-left: auto; }
   .burger { display: none; margin-left: auto; width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 6px; font-size: 18px; }
+  @media (max-width: 1160px) and (min-width: 1001px) { .nav { gap: 28px; } .menu { gap: 22px; font-size: 15px; } }
   @media (max-width: 1000px) {
     .menu { display: none; position: absolute; top: 72px; left: 0; right: 0; flex-direction: column; gap: 0; padding: 4px 32px 20px; background: #fff; border-bottom: 1px solid var(--line); }
     .menu.open { display: flex; } .menu a { padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .menu .shop { display: flex; }
     .burger { display: grid; place-items: center; } .nav .btn { display: none; }
   }
 
@@ -242,6 +248,8 @@
   .linked > div { border-top: 3px solid var(--heart); padding-top: 20px; }
   .linked > div:last-child { border-color: var(--maum); }
   .linked b { font-size: 18px; } .linked p { font-size: 15px; color: var(--ink-2); margin-top: 6px; }
+  .shop-link { display: inline-block; margin-top: 12px; font-size: 15px; font-weight: 700; color: var(--heart); }
+  .shop-link:hover { text-decoration: underline; }
   .disclaim { font-size: 13.5px; color: var(--ink-3); margin-top: 28px; }
   @media (max-width: 1000px) { .prog-grid { grid-template-columns: 1fr; } .linked { grid-template-columns: 1fr; } .custom { flex-direction: column; align-items: flex-start; } }
   @media (max-width: 560px) { .prog { grid-template-columns: 1fr; } .prog .pic { min-height: 180px; } .frow { grid-template-columns: 1fr; gap: 8px; } }
@@ -337,8 +345,13 @@
     .dd-panel { display: block; position: static; border: none; box-shadow: none; padding: 0 0 8px 16px; }
     .dd-panel a { padding: 10px 0; border-bottom: none; color: var(--ink-3); font-weight: 500; }
   }
-  body:not(.about-mode) #about { display: none; }
-  body.about-mode main > section:not(#about), body.about-mode main > .band { display: none; }
+  /* 페이지 전환: 처음 화면은 소개만, 메뉴를 누르면 해당 페이지만 보여줍니다 */
+  main > section[data-page], main > .band { display: none; }
+  body:not([data-page="home"]) main > section:not([data-page]):not(.band) { display: none; }
+  body[data-page="about"] #about, body[data-page="programs"] #programs, body[data-page="portfolio"] #portfolio,
+  body[data-page="partnership"] #partnership, body[data-page="contact"] #contact { display: block; }
+  body[data-page="home"] main > .band, body[data-page="programs"] main > .band,
+  body[data-page="portfolio"] main > .band, body[data-page="partnership"] main > .band { display: block; }
   .about-hero { background: var(--ivory); padding: 72px 0 0; border-bottom: 1px solid var(--line); }
   .about-hero .en { font-size: 14px; font-weight: 700; color: var(--plove); letter-spacing: .04em; margin-bottom: 10px; }
   .about-title { font-size: 40px; font-weight: 700; letter-spacing: -0.03em; }
@@ -405,6 +418,7 @@
       <a href="#portfolio">운영 사례</a>
       <a href="#partnership">기관 협력</a>
       <a href="#contact">문의하기</a>
+      <a href="https://smartstore.naver.com/heartchu0323" class="shop" target="_blank" rel="noopener" aria-label="핱츄 구매하기 (네이버 스마트스토어, 새 창)">핱츄 구매하기<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
     </nav>
     <a href="#contact" class="btn btn-main btn-sm">기관 협력 문의하기</a>
     <button class="burger" id="burger" aria-label="메뉴 열기" aria-expanded="false">☰</button>
@@ -479,7 +493,7 @@
 </section>
 
 <!-- ============ 회사 소개 ============ -->
-<section class="about-page" id="about" aria-label="회사 소개">
+<section class="about-page" id="about" data-page="about" aria-label="회사 소개">
   <div class="about-hero">
     <div class="wrap">
       <p class="en">ABOUT PLOVE</p>
@@ -579,7 +593,7 @@
 </section>
 
 <!-- ============ 프로그램 ============ -->
-<section class="block" id="programs">
+<section class="block" id="programs" data-page="programs">
   <div class="wrap">
     <div class="head">
       <p class="en">PROGRAMS</p>
@@ -614,7 +628,7 @@
       <a href="#contact" class="btn btn-main">맞춤 설계 문의하기</a>
     </div>
     <div class="linked">
-      <div><b>HEARTCHU 핱츄</b><p>마음 문화를 만드는 디저트 상점입니다. 디저트와 감정 경험을 결합한 체험형 콘텐츠로 디저트아트테라피 클래스를 운영하고, 마음을 담은 시그니처 하트 페이스트리와 지역 특산품(자두, 샤인머스캣)을 활용한 시즌 디저트를 만듭니다.</p></div>
+      <div><b>HEARTCHU 핱츄</b><p>마음 문화를 만드는 디저트 상점입니다. 디저트와 감정 경험을 결합한 체험형 콘텐츠로 디저트아트테라피 클래스를 운영하고, 마음을 담은 시그니처 하트 페이스트리와 지역 특산품(자두, 샤인머스캣)을 활용한 시즌 디저트를 만듭니다.</p><a class="shop-link" href="https://smartstore.naver.com/heartchu0323" target="_blank" rel="noopener">핱츄 스토어에서 구매하기 ↗</a></div>
       <div><b>마음지오</b><p>멘탈 헬스 케어 브랜드입니다. 디저트를 활용한 마음레시피북, 일상 문구를 활용한 감정 환기 콘텐츠 같은 마음챙김 도구를 만들고, 정신건강 서비스 정보를 알기 쉽게 안내합니다.</p></div>
     </div>
     <p class="disclaim">플로브의 프로그램은 심리교육 및 체험 프로그램이며, 의료적 치료를 대신하지 않습니다.</p>
@@ -622,7 +636,7 @@
 </section>
 
 <!-- ============ 운영 사례 ============ -->
-<section class="block ivory" id="portfolio">
+<section class="block ivory" id="portfolio" data-page="portfolio">
   <div class="wrap">
     <div class="head">
       <p class="en">PORTFOLIO</p>
@@ -637,7 +651,7 @@
 </section>
 
 <!-- ============ 기관 협력 ============ -->
-<section class="block" id="partnership">
+<section class="block" id="partnership" data-page="partnership">
   <div class="wrap">
     <div class="head">
       <p class="en">PARTNERSHIP</p>
@@ -666,7 +680,7 @@
 </section>
 
 <!-- ============ 문의 ============ -->
-<section class="block" id="contact">
+<section class="block" id="contact" data-page="contact">
   <div class="wrap">
     <div class="head">
       <p class="en">CONTACT</p>
@@ -1029,8 +1043,8 @@ $('#aud').addEventListener('click', e => {
 $('#progGroups').addEventListener('click', e => {
   const b = e.target.closest('.add'); if (!b) return;
   $('#f-prog').value = b.dataset.name;
-  $('#contact').scrollIntoView({ behavior: 'smooth' });
-  setTimeout(() => $('#f-purpose').focus({ preventScroll: true }), 600);
+  location.hash = 'contact';
+  setTimeout(() => $('#f-purpose').focus({ preventScroll: true }), 300);
 });
 function renderProgramSelect() {
   $('#f-prog').innerHTML = '<option value="">선택해 주세요</option>' +
@@ -1084,22 +1098,33 @@ $('#form').addEventListener('submit', async e => {
 });
 
 
-/* 회사 소개 하위 페이지 전환 */
+/* 페이지 전환 — 메뉴를 누르면 해당 페이지만 보여줍니다 */
+const PAGE_TITLE = { programs: '프로그램', portfolio: '운영 사례', partnership: '기관 협력', contact: '문의하기' };
 function route() {
   const h = location.hash.slice(1);
   const m = h.match(/^about-(intro|vision|people|history)$/) || (h === 'about' ? [0, 'intro'] : h === 'about-ceo' ? [0, 'people'] : null);
-  document.body.classList.toggle('about-mode', !!m);
+  // 해시가 가리키는 요소가 어느 페이지에 속하는지 찾기 (예: #f-prog → 문의하기)
+  const el = !m && h && h !== 'home' ? document.getElementById(h) : null;
+  const sec = el && el.closest('main > section[data-page]');
+  const page = m ? 'about' : sec ? sec.dataset.page : 'home';
+  document.body.dataset.page = page;
+  $$('#menu > a, #menu .dd-top').forEach(a => {
+    const p = a.getAttribute('href').slice(1).split('-')[0];
+    p === page ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current');
+  });
   if (m) {
     $$('.panel').forEach(p => p.classList.toggle('on', p.dataset.panelId === m[1]));
     $$('.about-tabs a').forEach(a => a.dataset.tab === m[1] ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
-    window.scrollTo(0, 0);
     const t = { intro: '회사 소개', vision: '비전', people: '함께하는 사람들', history: '연혁·인증' }[m[1]];
     document.title = t + ' | 플로브 PLOVE';
+    window.scrollTo(0, 0);
+  } else if (page !== 'home') {
+    document.title = PAGE_TITLE[page] + ' | 플로브 PLOVE';
+    if (el === sec) window.scrollTo(0, 0);
+    else requestAnimationFrame(() => el.scrollIntoView());
   } else {
     document.title = BASE_TITLE;
-    const el = h && document.getElementById(h);
-    if (el) requestAnimationFrame(() => el.scrollIntoView());
-    else if (!h || h === 'home') window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }
 }
 const BASE_TITLE = document.title;
