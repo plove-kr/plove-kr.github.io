@@ -325,6 +325,11 @@
   .psf > div { background: var(--ivory); border-radius: 10px; padding: 28px; }
   .psf small { display: block; font-size: 13px; font-weight: 700; color: var(--plove); letter-spacing: .04em; margin-bottom: 8px; }
   .psf b { display: block; font-size: 18px; margin-bottom: 8px; } .psf p { font-size: 15px; color: var(--ink-2); }
+  .vision-top { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.15fr); gap: 56px; align-items: center; margin-bottom: 72px; }
+  .vision-top .mission { font-size: 22px; }
+  .vision-img { margin: 0; border-radius: 16px; overflow: hidden; aspect-ratio: 16/9; box-shadow: 0 18px 40px -24px rgba(34,27,51,.35); }
+  .vision-img img { width: 100%; height: 100%; object-fit: cover; object-position: 55% 50%; display: block; }
+  @media (max-width: 900px) { .vision-top { grid-template-columns: 1fr; gap: 32px; } .vision-img { aspect-ratio: auto; } }
   .sub-h { font-size: 15px; font-weight: 700; color: var(--ink-3); margin: 0 0 16px; }
   .values { list-style: none; border-top: 2px solid var(--ink); }
   .values li { padding: 20px 0; border-bottom: 1px solid var(--line); font-size: 19px; font-weight: 600; }
@@ -471,9 +476,14 @@
 
     <!-- 비전 -->
     <div class="panel" data-panel-id="vision">
-      <h2 class="panel-title">일상 속 누구나 건강하게<br>마음을 챙길 수 있도록</h2>
-      <p class="mission"><small>미션</small>누구나 자신의 마음을 이해하고 표현하며 돌볼 수 있도록, 마음건강에 대한 접근 장벽을 낮춥니다.</p>
-      <div class="meaning" aria-label="브랜드 의미"><span><b>P</b>eople</span><span><b>P</b>eace</span><span><b>P</b>sychological <b>Love</b></span></div>
+      <div class="vision-top">
+        <div>
+          <h2 class="panel-title">일상 속 누구나 건강하게<br>마음을 챙길 수 있도록</h2>
+          <p class="mission"><small>미션</small>누구나 자신의 마음을 이해하고 표현하며 돌볼 수 있도록, 마음건강에 대한 접근 장벽을 낮춥니다.</p>
+          <div class="meaning" aria-label="브랜드 의미"><span><b>P</b>eople</span><span><b>P</b>eace</span><span><b>P</b>sychological <b>Love</b></span></div>
+        </div>
+        <figure class="vision-img"><img src="images/vision-picnic.jpg" alt="야외에서 함께 이야기를 나누며 쉬는 사람들" loading="lazy"></figure>
+      </div>
       <div class="psf">
         <div><small>Problem</small><b>정신건강 서비스 이용의 높은 진입장벽</b><p>정서적 돌봄과 마음 건강 서비스는 여전히 접근성이 낮고, 일상 속에서 가볍게 경험하기 어렵습니다.</p></div>
         <div><small>Solution</small><b>마음챙김 교육 및 문화</b><p>디저트, 체험형 콘텐츠, 심리 프로그램을 결합하여 부담 없이 참여할 수 있는 마음 건강 서비스를 제공합니다.</p></div>
