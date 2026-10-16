@@ -154,8 +154,15 @@
   .creds li b { color: var(--ink-3); font-weight: 600; font-size: 14.5px; padding-top: 1px; }
   .team { margin-top: 48px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .member { border: 1px solid var(--line); border-radius: 10px; padding: 24px 28px; }
-  .member b { display: block; font-size: 17px; }
-  .member span { font-size: 15px; color: var(--ink-2); }
+  .member b { display: block; font-size: 19px; margin-top: 2px; }
+  .member .m-photo { width: 96px; height: 96px; border-radius: 50%; overflow: hidden; margin-bottom: 18px; box-shadow: 0 0 0 4px #fff, 0 0 0 5px #E4DCF5; background: #F3EFFA; display: grid; place-items: center; }
+  .member .m-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .member .ph { font-size: 30px; font-weight: 700; color: #9C8CC8; }
+  .member .m-field { font-size: 13.5px; font-weight: 700; color: var(--plove); margin: 0; }
+  .member .m-intro { font-size: 15px; color: var(--ink-2); margin: 10px 0 0; line-height: 1.7; }
+  .member .m-career { list-style: none; padding: 12px 0 0; margin: 12px 0 0; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-3); line-height: 1.8; }
+  .team-wrap { margin-top: 88px; }
+  .team-lead { font-size: 16px; color: var(--ink-2); margin: -6px 0 24px; }
   .certs { margin-top: 96px; }
   .certs h3 { font-size: 15px; font-weight: 700; color: var(--ink-3); margin-bottom: 16px; }
   .cert-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
@@ -348,7 +355,7 @@
         <div class="dd-panel">
           <a href="#about-intro">회사 소개</a>
           <a href="#about-vision">비전</a>
-          <a href="#about-ceo">대표자 소개</a>
+          <a href="#about-people">함께하는 사람들</a>
           <a href="#about-history">연혁·인증</a>
         </div>
       </div>
@@ -439,7 +446,7 @@
       <nav class="about-tabs" aria-label="회사 소개 하위 메뉴">
         <a href="#about-intro" data-tab="intro">회사 소개</a>
         <a href="#about-vision" data-tab="vision">비전</a>
-        <a href="#about-ceo" data-tab="ceo">대표자 소개</a>
+        <a href="#about-people" data-tab="people">함께하는 사람들</a>
         <a href="#about-history" data-tab="history">연혁·인증</a>
       </nav>
     </div>
@@ -480,8 +487,9 @@
       </ul>
     </div>
 
-    <!-- 대표자 소개 -->
-    <div class="panel" data-panel-id="ceo">
+    <!-- 함께하는 사람들 -->
+    <div class="panel" data-panel-id="people">
+      <h3 class="sub-h">대표</h3>
       <div class="ceo">
         <div class="ceo-photo" id="ceoPhoto"><div class="empty">대표 사진</div></div>
         <div>
@@ -496,8 +504,11 @@
           </ul>
         </div>
       </div>
-      <h3 class="sub-h">함께하는 강사진</h3>
-      <div class="team" id="team"></div>
+      <div class="team-wrap">
+        <h3 class="sub-h">함께하는 강사진</h3>
+        <p class="team-lead">분야별 전문 강사가 기관의 목적과 대상에 맞춰 프로그램을 함께 진행합니다.</p>
+        <div class="team" id="team"></div>
+      </div>
     </div>
 
     <!-- 연혁·인증 -->
@@ -790,7 +801,22 @@ function renderCeo() {
   img.alt = '주식회사 플로브 대표 정민혜'; img.src = imgSrc(SETTINGS.CEO_PHOTO);
 }
 function renderTeam(rows) {
-  $('#team').innerHTML = visible(rows).map(r => `<div class="member"><b>${esc(r.이름)}${draftTag(r)}</b><span>${esc(r.분야)}</span></div>`).join('');
+  const list = visible(rows);
+  $('.team-wrap').style.display = list.length ? '' : 'none';
+  $('#team').innerHTML = list.map(r => {
+    const name = r.이름 || '';
+    const photo = r.사진
+      ? `<img src="${esc(imgSrc(r.사진))}" alt="${esc(name)} 강사" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'ph',textContent:'${esc(name.slice(0,1))}'}))">`
+      : `<span class="ph">${esc(name.slice(0, 1))}</span>`;
+    const career = (r.경력 || '').split(/\s*[\n·]\s*/).filter(Boolean);
+    return `<div class="member">
+      <div class="m-photo">${photo}</div>
+      <p class="m-field">${esc(r.분야)}</p>
+      <b>${esc(name)}${draftTag(r)}</b>
+      ${r.소개 ? `<p class="m-intro">${esc(r.소개)}</p>` : ''}
+      ${career.length ? `<ul class="m-career">${career.map(c => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}
+    </div>`;
+  }).join('');
 }
 function renderCerts(rows) {
   $('#certs').innerHTML = visible(rows).map(r => `<div class="cert"><b>${esc(r.인증)}${draftTag(r)}</b><span>${esc(r.상태)}</span></div>`).join('');
@@ -897,13 +923,13 @@ $('#form').addEventListener('submit', async e => {
 /* 회사 소개 하위 페이지 전환 */
 function route() {
   const h = location.hash.slice(1);
-  const m = h.match(/^about-(intro|vision|ceo|history)$/) || (h === 'about' ? [0, 'intro'] : null);
+  const m = h.match(/^about-(intro|vision|people|history)$/) || (h === 'about' ? [0, 'intro'] : h === 'about-ceo' ? [0, 'people'] : null);
   document.body.classList.toggle('about-mode', !!m);
   if (m) {
     $$('.panel').forEach(p => p.classList.toggle('on', p.dataset.panelId === m[1]));
     $$('.about-tabs a').forEach(a => a.dataset.tab === m[1] ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
     window.scrollTo(0, 0);
-    const t = { intro: '회사 소개', vision: '비전', ceo: '대표자 소개', history: '연혁·인증' }[m[1]];
+    const t = { intro: '회사 소개', vision: '비전', people: '함께하는 사람들', history: '연혁·인증' }[m[1]];
     document.title = t + ' | 플로브 PLOVE';
   } else {
     document.title = BASE_TITLE;
