@@ -193,6 +193,8 @@
   .chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
   .count { font-size: 15px; color: var(--ink-2); margin-bottom: 16px; }
   /* 디저트테라피 정의 */
+  .empty-cat { padding: 32px; border: 1px dashed var(--line); border-radius: 10px; color: var(--ink-2); font-size: 15.5px; }
+  .prog-tabs { margin: 0 0 40px; border-bottom: 1px solid var(--line); }
   .dt-def { display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px 48px; padding: 40px 44px; border-radius: 12px; background: #FDF4EC; border: 1px solid #F3DFCC; margin-bottom: 56px; }
   .dt-def .brand-tag { font-size: 13px; font-weight: 700; color: var(--heart); }
   .dt-def h3 { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; margin: 4px 0 14px; }
@@ -414,7 +416,17 @@
           <a href="#about-history">연혁·인증</a>
         </div>
       </div>
-      <a href="#programs">프로그램</a>
+      <div class="dd">
+        <a href="#programs" class="dd-top" aria-haspopup="true">프로그램 <span aria-hidden="true">▾</span></a>
+        <div class="dd-panel">
+          <a href="#programs">전체 프로그램</a>
+          <a href="#programs-dessert">디저트테라피</a>
+          <a href="#programs-lecture">강의형 심리교육</a>
+          <a href="#programs-group">집단상담 · 심리검사</a>
+          <a href="#programs-music">음악 정서지원</a>
+          <a href="#programs-event">행사 체험</a>
+        </div>
+      </div>
       <a href="#portfolio">운영 사례</a>
       <a href="#partnership">기관 협력</a>
       <a href="#contact">문의하기</a>
@@ -601,7 +613,9 @@
       <p>플로브의 프로그램은 청소년부터 어르신까지 함께할 수 있습니다. 같은 프로그램이라도 참여자의 나이와 상황에 맞춰 이야기의 주제와 활동 방식을 다르게 설계합니다.</p>
     </div>
 
-    <div class="dt-def">
+    <nav class="about-tabs prog-tabs" id="progTabs" aria-label="프로그램 분류"></nav>
+
+    <div class="dt-def" id="dtDef">
       <div class="dt-main">
         <span class="brand-tag js-heart">HEARTCHU</span>
         <h3>디저트테라피란?</h3>
@@ -914,7 +928,7 @@ $$('.linked b')[0].textContent = SETTINGS.HEART_EN + ' 핱츄';
 
 const burger = $('#burger');
 burger.addEventListener('click', () => burger.setAttribute('aria-expanded', $('#menu').classList.toggle('open')));
-$$('#menu a').forEach(a => a.addEventListener('click', () => $('#menu').classList.remove('open')));
+$$('#menu a').forEach(a => a.addEventListener('click', () => { $('#menu').classList.remove('open'); a.blur(); }));
 
 /* 구글 시트 CSV 읽기 */
 function parseCSV(text) {
@@ -987,7 +1001,8 @@ function renderCerts(rows) {
 /* 프로그램 (대상 선택 + 분류별 묶음) */
 let PROGRAMS = [], COMBOS = [];
 const AUDS = ['청소년', '청년', '기업', '노인'];
-let AUD = '전체';
+let AUD = '전체', CAT = 'all';
+const CATS = { dessert: '디저트테라피', lecture: '강의형 심리교육', group: '집단상담 · 심리검사', music: '음악 정서지원', event: '행사 체험' };
 const GROUP_DESC = {
   '디저트테라피': '플로브의 대표 프로그램입니다. 감정을 표현하고, 이해하고, 회복하고, 지키는 네 가지 주제로 운영하며 모든 연령이 함께할 수 있습니다.',
   '강의형 심리교육': '꼭 필요한 마음건강 주제를 강의와 짧은 실습으로 전합니다. 특강, 연수, 다회기 과정으로 운영합니다.',
@@ -999,7 +1014,7 @@ const BRAND_COLOR = { HEARTCHU: 'var(--heart)', '마음지오': 'var(--maum)', P
 function renderAud() {
   $('#aud').innerHTML = ['전체', ...AUDS].map(a =>
     `<button type="button" class="chip" data-v="${a}" aria-pressed="${AUD === a}">${a === '전체' ? '전체 보기' : a}</button>`).join('');
-  const cs = AUD === '전체' ? [] : COMBOS.filter(c => c.대상 === AUD);
+  const cs = AUD === '전체' || CAT !== 'all' ? [] : COMBOS.filter(c => c.대상 === AUD);
   $('#combos').innerHTML = cs.length ? `<h3>${esc(AUD)} 대상 추천 조합</h3><div class="combo-row">${cs.map(c =>
     `<div class="combo"><b>${esc(c.이름)}</b><span>${esc(c.구성)}</span>${c.설명 ? `<p>${esc(c.설명)}</p>` : ''}</div>`).join('')}</div>` : '';
 }
@@ -1030,11 +1045,14 @@ function progCard(p) {
     </div></article>`;
 }
 function renderPrograms() {
-  const shown = PROGRAMS.filter(p => AUD === '전체' || list(p.대상).includes(AUD));
+  $('#progTabs').innerHTML = [['all', '전체'], ...Object.entries(CATS)].map(([k, v]) =>
+    `<a href="#programs${k === 'all' ? '' : '-' + k}"${CAT === k ? ' aria-current="page"' : ''}>${esc(v)}</a>`).join('');
+  $('#dtDef').style.display = CAT === 'all' || CAT === 'dessert' ? '' : 'none';
+  const shown = PROGRAMS.filter(p => (AUD === '전체' || list(p.대상).includes(AUD)) && (CAT === 'all' || p.분류 === CATS[CAT]));
   const groups = [...new Set(shown.map(p => p.분류 || '기타'))];
   $('#progGroups').innerHTML = groups.map(g => `<div class="pgroup">
     <h3>${esc(g)}</h3>${GROUP_DESC[g] ? `<p>${esc(GROUP_DESC[g])}</p>` : '<p></p>'}
-    <div class="prog-grid">${shown.filter(p => (p.분류 || '기타') === g).map(progCard).join('')}</div></div>`).join('');
+    <div class="prog-grid">${shown.filter(p => (p.분류 || '기타') === g).map(progCard).join('')}</div></div>`).join('') || `<p class="empty-cat">${esc(AUD)} 대상으로 운영하는 프로그램은 기관에 맞춰 따로 설계해 제안드려요. 아래 '맞춤 설계 문의하기'로 알려주세요.</p>`;
 }
 $('#aud').addEventListener('click', e => {
   const b = e.target.closest('.chip'); if (!b) return;
@@ -1104,9 +1122,11 @@ function route() {
   const h = location.hash.slice(1);
   const m = h.match(/^about-(intro|vision|people|history)$/) || (h === 'about' ? [0, 'intro'] : h === 'about-ceo' ? [0, 'people'] : null);
   // 해시가 가리키는 요소가 어느 페이지에 속하는지 찾기 (예: #f-prog → 문의하기)
+  const pm = h.match(/^programs(?:-(\w+))?$/);
+  if (pm) { CAT = CATS[pm[1]] ? pm[1] : 'all'; renderAud(); renderPrograms(); }
   const el = !m && h && h !== 'home' ? document.getElementById(h) : null;
   const sec = el && el.closest('main > section[data-page]');
-  const page = m ? 'about' : sec ? sec.dataset.page : 'home';
+  const page = m ? 'about' : pm ? 'programs' : sec ? sec.dataset.page : 'home';
   document.body.dataset.page = page;
   $$('#menu > a, #menu .dd-top').forEach(a => {
     const p = a.getAttribute('href').slice(1).split('-')[0];
@@ -1119,8 +1139,8 @@ function route() {
     document.title = t + ' | 플로브 PLOVE';
     window.scrollTo(0, 0);
   } else if (page !== 'home') {
-    document.title = PAGE_TITLE[page] + ' | 플로브 PLOVE';
-    if (el === sec) window.scrollTo(0, 0);
+    document.title = (pm && CAT !== 'all' ? CATS[CAT] : PAGE_TITLE[page]) + ' | 플로브 PLOVE';
+    if (pm || el === sec) window.scrollTo(0, 0);
     else requestAnimationFrame(() => el.scrollIntoView());
   } else {
     document.title = BASE_TITLE;
