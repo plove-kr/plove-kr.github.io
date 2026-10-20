@@ -301,7 +301,13 @@
   .stat span { font-size: 15px; color: var(--ink-2); }
   .partners { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 56px; }
   .partners span { border: 1px solid var(--line); border-radius: 6px; padding: 10px 16px; font-size: 15px; font-weight: 600; background: #fff; }
-  .cases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .cases { display: grid; gap: 56px; }
+  .case-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
+  .case-head h3 { font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
+  .case-head p { font-size: 16px; color: var(--ink-2); }
+  .case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 900px) { .case-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .case-grid { grid-template-columns: 1fr; } }
   .case { background: #fff; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); }
   .case img { aspect-ratio: 4/3; width: 100%; object-fit: cover; }
   .case .t { padding: 18px 20px 22px; }
@@ -436,6 +442,39 @@
     .brands, .psf { grid-template-columns: 1fr; } .panel .team { grid-template-columns: 1fr; }
     .timeline > li { grid-template-columns: 1fr; gap: 8px; } .about-body { padding: 48px 0 72px; }
   }
+
+  /* ===== 가독성 보정: 글씨 키우고 프로그램 카드 세로형 ===== */
+  body { font-size: 17px; }
+  .head p { font-size: 19px; }
+  .hero .lead { font-size: 20px; }
+  .fact span, .area p, .strength p, .psf p, .brand-card p, .way p, .flow p, .linked p, .custom p { font-size: 16.5px; }
+  .area li { font-size: 16px; }
+  .cat b { font-size: 20px; } .cat small { font-size: 15px; } .cat .go { font-size: 14px; }
+  .pick-label, .aud-row > b, .sub-h { font-size: 16px; }
+  .dt-def .dt-lead { font-size: 19px; } .dt-def p, .dt-steps li, .dt-course p { font-size: 16px; }
+  .pgroup > h3 { font-size: 24px; } .pgroup > p { font-size: 16.5px; margin-bottom: 20px; }
+  .prog-grid { grid-template-columns: repeat(3, 1fr); }
+  .prog { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .prog .pic { min-height: 0; aspect-ratio: 16 / 10; }
+  .prog .pic .ph-ic { position: absolute; inset: 0; display: grid; place-items: center; background: var(--plove-t); color: var(--plove); }
+  .prog .pic.dessert .ph-ic, .prog .pic.event .ph-ic { background: #FDF0E4; color: var(--heart); }
+  .prog .pic.lecture .ph-ic, .prog .pic.group .ph-ic { background: #EAF1FB; color: var(--maum); }
+  .prog .pic:has(.ph-ic) { aspect-ratio: auto; height: 96px; }
+  .prog .pic .ph-ic svg { width: 40px; height: 40px; opacity: .55; }
+  .prog .body { padding: 22px 24px 24px; }
+  .prog .brand { font-size: 13.5px; }
+  .prog h3 { font-size: 22px; }
+  .prog p { font-size: 16.5px; line-height: 1.6; margin: 6px 0 14px; }
+  .prog .point { font-size: 15px; }
+  .goals span { font-size: 14px; padding: 3px 10px; }
+  .prog .meta { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 14.5px; color: var(--ink-3); margin: 0 0 18px; }
+  .prog .meta span + span::before { content: ''; display: inline-block; width: 3px; height: 3px; border-radius: 50%; background: var(--ink-3); margin-right: 14px; vertical-align: middle; }
+  .prog .add { width: 100%; height: 44px; font-size: 15px; }
+  .case .t b { font-size: 18px; } .case .t p { font-size: 16px; }
+  .team-lead, .member .m-intro { font-size: 16.5px; } .member .m-career { font-size: 15px; }
+  .creds li { font-size: 16.5px; } .timeline ul { font-size: 17.5px; }
+  @media (max-width: 1100px) { .prog-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 640px) { .prog-grid { grid-template-columns: 1fr; } .prog .pic { min-height: 0; } }
 </style>
 </head>
 <body>
@@ -481,8 +520,8 @@
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <h1>마음을 이해하는 경험,<br>관계를 연결하는 교육</h1>
-        <p class="lead">플로브는 심리·정서 교육을 체험 활동과 연결하여, 누구나 자신의 마음을 표현하고 서로를 이해할 수 있는 시간을 만듭니다.</p>
+        <h1>마음을 이해하는 경험<br>관계를 연결하는 교육</h1>
+        <p class="lead">심리·정서 교육과 체험 활동을 연결해<br>누구나 마음을 표현하고 서로 이해하는 시간을 만듭니다</p>
         <div class="cta">
           <a href="#programs" class="btn btn-main">프로그램 살펴보기</a>
           <a href="#contact" class="btn btn-line">기관 협력 문의하기</a>
@@ -491,9 +530,9 @@
       <div class="photos" id="heroPhotos" aria-label="프로그램 현장 사진"></div>
     </div>
     <div class="facts">
-      <div class="fact"><b>심리학 기반 프로그램 설계</b><span>상담심리 석사 출신 대표가 직접 설계합니다</span></div>
-      <div class="fact"><b>기관 맞춤 운영</b><span>참여자 특성, 교육 목표, 예산, 운영 시간에 맞춰 구성합니다</span></div>
-      <div class="fact"><b>단회기부터 정기 운영까지</b><span>학교, 청년센터, 복지기관, 공공기관에 맞춰 운영합니다</span></div>
+      <div class="fact"><b>심리학 기반 설계</b><span>상담심리 석사 대표가 직접 설계합니다</span></div>
+      <div class="fact"><b>기관 맞춤 운영</b><span>참여자와 교육 목표에 맞춰 구성합니다</span></div>
+      <div class="fact"><b>단회기부터 정기 운영까지</b><span>학교부터 공공기관까지 찾아갑니다</span></div>
     </div>
   </div>
 </section>
@@ -504,13 +543,13 @@
     <div class="head">
       <p class="en">WHAT WE DO</p>
       <h2>플로브가 하는 일</h2>
-      <p>단순한 원데이클래스가 아니라, 전문적인 심리교육을 일상적인 체험과 연결합니다.</p>
+      <p>전문 심리교육을 일상의 체험과 연결합니다</p>
     </div>
     <div class="areas">
       <article class="area core">
         <span class="status st-on">운영 중 · 핵심 사업</span>
         <h3>기관 대상 마음건강 프로그램</h3>
-        <p>청소년, 청년, 기업, 노인까지 기관의 참여자와 교육 목표에 맞춰 정서 지원과 심리교육을 운영합니다.</p>
+        <p>청소년부터 어르신까지 기관에 맞춘 정서 지원과 심리교육</p>
         <ul>
           <li>디저트테라피<small>플로브 대표 프로그램</small></li>
           <li>강의형 심리교육<small>스트레스 관리 · 의사소통 · 진로</small></li>
@@ -521,7 +560,7 @@
       <article class="area">
         <span class="status st-link">프로그램 연계</span>
         <h3>마음건강 콘텐츠</h3>
-        <p>프로그램 안에서 함께 쓰는 체험 콘텐츠와 도구입니다. 기관용 키트와 단체 활용을 우선 안내합니다.</p>
+        <p>프로그램과 함께 쓰는 체험 콘텐츠와 도구</p>
         <ul>
           <li><span class="js-heart">HEARTCHU</span><small>마음 문화를 만드는 디저트 상점</small></li>
           <li>마음지오<small>마음챙김 도구와 멘탈 헬스 케어 콘텐츠</small></li>
@@ -530,7 +569,7 @@
       <article class="area">
         <span class="status st-plan">준비 중</span>
         <h3>새로 준비하는 프로그램</h3>
-        <p>더 많은 분들이 마음을 돌볼 수 있도록 새 프로그램을 준비하고 있습니다. 운영이 시작되면 이곳에서 안내합니다.</p>
+        <p>운영이 시작되면 이곳에서 안내합니다</p>
         <ul>
           <li>국악과 함께하는 정서 지원<small>준비 중</small></li>
           <li>심리검사 실시 및 해석 확대<small>준비 중</small></li>
@@ -560,16 +599,16 @@
     <!-- 회사 소개 -->
     <div class="panel" data-panel-id="intro">
       <h2 class="panel-title">모두의 마음이 건강해지는 그날까지</h2>
-      <p class="panel-lead">주식회사 플로브는 심리학 기반 마음건강 교육·프로그램 개발 기업입니다. 정신건강 서비스의 높은 진입장벽을 마음챙김 교육과 문화로 낮추어, 누구나 일상 속에서 건강하게 마음을 챙길 수 있도록 돕습니다.</p>
+      <p class="panel-lead">주식회사 플로브는 심리학 기반 마음건강 교육 기업입니다<br>정신건강 서비스의 높은 문턱을 마음챙김 교육과 문화로 낮춥니다</p>
       <div class="strengths">
-        <div class="strength"><h3>심리학 기반 전문성</h3><p>감정 인식, 자기표현, 자기이해, 관계 형성, 자기효능감을 목표로 프로그램을 설계합니다.</p></div>
-        <div class="strength"><h3>체험 중심 심리교육</h3><p>말로 표현하기 어려운 참여자도 감각적이고 창의적인 활동으로 마음을 꺼낼 수 있습니다.</p></div>
-        <div class="strength"><h3>기관 맞춤형 구성</h3><p>참여자 특성, 교육 목표, 예산, 운영 시간에 맞춰 단회기부터 정기 프로그램까지 제안합니다.</p></div>
-        <div class="strength"><h3>관계와 상호작용 중심</h3><p>강사와 참여자, 참여자 사이의 교류와 집단역동을 중요하게 다룹니다.</p></div>
+        <div class="strength"><h3>심리학 기반 전문성</h3><p>감정 인식부터 관계 형성까지 목표에 맞춰 설계합니다</p></div>
+        <div class="strength"><h3>체험 중심 심리교육</h3><p>말로 꺼내기 어려운 마음도 감각 활동으로 표현합니다</p></div>
+        <div class="strength"><h3>기관 맞춤형 구성</h3><p>단회기부터 정기 과정까지 기관에 맞춰 제안합니다</p></div>
+        <div class="strength"><h3>관계와 상호작용 중심</h3><p>참여자 사이의 교류와 집단역동을 소중히 다룹니다</p></div>
       </div>
       <div class="brands">
-        <div class="brand-card heart"><b>HEARTCHU 핱츄</b><span>마음 문화를 만드는 디저트 상점</span><p>디저트와 감정 경험을 결합한 체험형 콘텐츠와 문화 프로그램을 운영합니다.</p></div>
-        <div class="brand-card maum"><b>마음지오</b><span>멘탈 헬스 케어 서비스</span><p>심리·정서 기반 프로그램과 마음챙김 도구를 만들고, 공공기관과 연계한 맞춤형 서비스를 제공합니다.</p></div>
+        <div class="brand-card heart"><b>HEARTCHU 핱츄</b><span>마음 문화를 만드는 디저트 상점</span><p>디저트와 감정 경험을 결합한 체험 콘텐츠를 운영합니다</p></div>
+        <div class="brand-card maum"><b>마음지오</b><span>멘탈 헬스 케어 서비스</span><p>심리·정서 프로그램과 마음챙김 도구를 만듭니다</p></div>
       </div>
     </div>
 
@@ -578,21 +617,21 @@
       <div class="vision-top">
         <div>
           <h2 class="panel-title">일상 속 누구나 건강하게<br>마음을 챙길 수 있도록</h2>
-          <p class="mission"><small>미션</small>누구나 자신의 마음을 이해하고 표현하며 돌볼 수 있도록, 마음건강에 대한 접근 장벽을 낮춥니다.</p>
+          <p class="mission"><small>미션</small>누구나 자신의 마음을 이해하고 돌볼 수 있도록 마음건강의 문턱을 낮춥니다</p>
           <div class="meaning" aria-label="브랜드 의미"><span><b>P</b>eople</span><span><b>P</b>eace</span><span><b>P</b>sychological <b>Love</b></span></div>
         </div>
         <figure class="vision-img"><img src="images/vision-picnic.jpg" alt="야외에서 함께 이야기를 나누며 쉬는 사람들" loading="lazy"></figure>
       </div>
       <div class="psf">
-        <div><small>Problem</small><b>정신건강 서비스 이용의 높은 진입장벽</b><p>정서적 돌봄과 마음 건강 서비스는 여전히 접근성이 낮고, 일상 속에서 가볍게 경험하기 어렵습니다.</p></div>
-        <div><small>Solution</small><b>마음챙김 교육 및 문화</b><p>디저트, 체험형 콘텐츠, 심리 프로그램을 결합하여 부담 없이 참여할 수 있는 마음 건강 서비스를 제공합니다.</p></div>
-        <div><small>Future</small><b>심리적 웰빙 증진</b><p>개인과 공공기관을 연결하는 통합형 멘탈 웰니스 브랜드로 확장하여 일상 속 마음 건강 문화를 만들어 갑니다.</p></div>
+        <div><small>Problem</small><b>정신건강 서비스 이용의 높은 진입장벽</b><p>정서적 돌봄은 아직 일상에서 가볍게 경험하기 어렵습니다</p></div>
+        <div><small>Solution</small><b>마음챙김 교육 및 문화</b><p>디저트와 체험을 결합해 부담 없이 참여하는 마음건강 서비스를 만듭니다</p></div>
+        <div><small>Future</small><b>심리적 웰빙 증진</b><p>개인과 공공기관을 잇는 멘탈 웰니스 브랜드로 성장합니다</p></div>
       </div>
       <h3 class="sub-h">플로브 사람들은 이렇게 일합니다</h3>
       <ul class="values">
-        <li>한 사람의 삶의 가치에 집중합니다.</li>
-        <li>마음건강과 심리·정서적 회복을 돕습니다.</li>
-        <li>성장과 책임, 자유가 균형을 이루는 조직 문화를 지향합니다.</li>
+        <li>한 사람의 삶의 가치에 집중합니다</li>
+        <li>마음건강과 정서적 회복을 돕습니다</li>
+        <li>성장과 책임과 자유가 균형을 이루는 조직을 지향합니다</li>
       </ul>
     </div>
 
@@ -615,7 +654,7 @@
       </div>
       <div class="team-wrap">
         <h3 class="sub-h">함께하는 강사진</h3>
-        <p class="team-lead">분야별 전문 강사가 기관의 목적과 대상에 맞춰 프로그램을 함께 진행합니다.</p>
+        <p class="team-lead">분야별 전문 강사가 기관에 맞춰 함께 진행합니다</p>
         <div class="team" id="team"></div>
       </div>
     </div>
@@ -624,11 +663,11 @@
     <div class="panel" data-panel-id="history">
       <h2 class="panel-title">걸어온 길</h2>
       <ol class="timeline">
-        <li><b>2025</b><ul><li>8월 사회적기업 돌봄 서비스 육성 사업 선정</li><li>디저트 아트 테라피 레시피북 개발</li><li>중소벤처기업부 여성기업 확인</li></ul></li>
-        <li><b>2024</b><ul><li>10월 (주)러플 MOU 체결</li><li>12월 멘탈 헬스 케어 브랜드 '마음지오' 런칭</li></ul></li>
-        <li><b>2023</b><ul><li>3월 사회적기업가 육성사업 13기 선정</li><li>9월 주식회사 플로브 법인 설립</li><li>12월 고용노동부 예비사회적기업 지정</li></ul></li>
-        <li><b>2022</b><ul><li>3월 디저트 아트 테라피 교육 개발</li><li>취약계층 대상 교육 제공</li></ul></li>
-        <li><b>2021</b><ul><li>4월 김천 전통시장 청년창업 인큐베이팅 사업 선정</li><li>7월 디저트 상점 '핱츄' 런칭</li></ul></li>
+        <li><b>2025</b><ul><li>사회적기업 돌봄 서비스 육성 사업 선정</li><li>디저트 아트 테라피 레시피북 개발</li><li>중소벤처기업부 여성기업 확인</li></ul></li>
+        <li><b>2024</b><ul><li>(주)러플 MOU 체결</li><li>멘탈 헬스 케어 브랜드 '마음지오' 런칭</li></ul></li>
+        <li><b>2023</b><ul><li>사회적기업가 육성사업 13기 선정</li><li>주식회사 플로브 법인 설립</li><li>고용노동부 예비사회적기업 지정</li></ul></li>
+        <li><b>2022</b><ul><li>디저트 아트 테라피 교육 개발</li><li>취약계층 대상 교육 제공</li></ul></li>
+        <li><b>2021</b><ul><li>김천 전통시장 청년창업 인큐베이팅 사업 선정</li><li>디저트 상점 '핱츄' 런칭</li></ul></li>
       </ol>
       <h3 class="sub-h" id="certs-title">기업 인증</h3>
       <div class="cert-row" id="certs"></div>
@@ -647,7 +686,7 @@
     <div class="head">
       <p class="en">PROGRAMS</p>
       <h2>하나의 프로그램, 대상에 맞게 다르게</h2>
-      <p>플로브의 프로그램은 청소년부터 어르신까지 함께할 수 있습니다. 같은 프로그램이라도 참여자의 나이와 상황에 맞춰 이야기의 주제와 활동 방식을 다르게 설계합니다.</p>
+      <p>청소년부터 어르신까지 참여자에 맞춰 다르게 설계합니다</p>
     </div>
 
     <p class="pick-label">어떤 프로그램을 찾으세요?</p>
@@ -657,8 +696,8 @@
       <div class="dt-main">
         <span class="brand-tag js-heart">HEARTCHU</span>
         <h3>디저트테라피란?</h3>
-        <p class="dt-lead">디저트를 만들고 꾸미는 감각적인 활동에 심리교육을 결합해, 참여자가 자신의 감정을 알아차리고 표현하며 서로 나누도록 돕는 플로브의 체험형 심리교육 프로그램입니다.</p>
-        <p>말로 마음을 꺼내기 어려운 사람도 색과 모양, 작품으로 자연스럽게 자신을 표현할 수 있습니다. 누구에게나 익숙한 디저트를 매개로 하기 때문에 심리교육에 대한 부담이 낮고, 마지막에는 직접 만든 디저트를 맛보며 나를 돌보는 경험으로 마무리합니다.</p>
+        <p class="dt-lead">디저트를 만들고 꾸미며 내 감정을 알아차리고 표현하고 나누는 플로브의 체험형 심리교육</p>
+        <p>말로 꺼내기 어려운 마음도 색과 모양으로 자연스럽게 꺼낼 수 있습니다</p>
       </div>
       <ol class="dt-steps">
         <li><b>만들기</b><span>손으로 만지고 꾸미며 마음을 엽니다</span></li>
@@ -676,14 +715,14 @@
     <div class="combos" id="combos"></div>
     <div id="progGroups"></div>
     <div class="custom">
-      <div><b>찾는 프로그램이 없나요?</b><p>기관의 참여자와 목표를 알려주시면 맞춤형으로 설계해 제안합니다.</p></div>
+      <div><b>찾는 프로그램이 없나요?</b><p>참여자와 목표를 알려주시면 맞춤으로 설계해 드립니다</p></div>
       <a href="#contact" class="btn btn-main">맞춤 설계 문의하기</a>
     </div>
     <div class="linked">
-      <div><b>HEARTCHU 핱츄</b><p>마음 문화를 만드는 디저트 상점입니다. 디저트와 감정 경험을 결합한 체험형 콘텐츠로 디저트아트테라피 클래스를 운영하고, 마음을 담은 시그니처 하트 페이스트리와 지역 특산품(자두, 샤인머스캣)을 활용한 시즌 디저트를 만듭니다.</p><a class="shop-link" href="https://smartstore.naver.com/heartchu0323" target="_blank" rel="noopener">핱츄 스토어에서 구매하기 ↗</a></div>
-      <div><b>마음지오</b><p>멘탈 헬스 케어 브랜드입니다. 디저트를 활용한 마음레시피북, 일상 문구를 활용한 감정 환기 콘텐츠 같은 마음챙김 도구를 만들고, 정신건강 서비스 정보를 알기 쉽게 안내합니다.</p></div>
+      <div><b>HEARTCHU 핱츄</b><p>마음을 담은 하트 페이스트리와 지역 특산품 시즌 디저트를 만드는 디저트 상점</p><a class="shop-link" href="https://smartstore.naver.com/heartchu0323" target="_blank" rel="noopener">핱츄 스토어에서 구매하기 ↗</a></div>
+      <div><b>마음지오</b><p>마음레시피북 같은 마음챙김 도구를 만드는 멘탈 헬스 케어 브랜드</p></div>
     </div>
-    <p class="disclaim">플로브의 프로그램은 심리교육 및 체험 프로그램이며, 의료적 치료를 대신하지 않습니다.</p>
+    <p class="disclaim">플로브의 프로그램은 심리교육과 체험 프로그램이며 의료적 치료를 대신하지 않습니다</p>
   </div>
 </section>
 
@@ -707,26 +746,26 @@
   <div class="wrap">
     <div class="head">
       <p class="en">PARTNERSHIP</p>
-      <h2>한 번의 행사가 아니라,<br>꾸준히 함께하는 파트너로</h2>
-      <p>일회성 체험을 넘어 참여자에 대한 이해가 쌓이고, 정서적 성장과 관계 형성을 꾸준히 지원하는 교육을 지향합니다.</p>
+      <h2>한 번의 행사가 아니라<br>꾸준히 함께하는 파트너로</h2>
+      <p>참여자를 이해하며 꾸준히 성장을 돕는 교육을 지향합니다</p>
     </div>
     <div class="ways">
-      <div class="way"><h3>단회기 프로그램</h3><p>기관 행사, 특강, 체험 활동으로 한 번에 운영합니다.</p></div>
-      <div class="way"><h3>다회기 프로그램</h3><p>같은 참여자와 여러 회기를 이어 가며 변화를 만듭니다.</p></div>
-      <div class="way"><h3>정기 프로그램</h3><p>학기·연간 단위로 기관 일정에 맞춰 계획하고 운영합니다.</p></div>
+      <div class="way"><h3>단회기 프로그램</h3><p>행사나 특강으로 한 번에 운영합니다</p></div>
+      <div class="way"><h3>다회기 프로그램</h3><p>같은 참여자와 여러 회기를 이어 갑니다</p></div>
+      <div class="way"><h3>정기 프로그램</h3><p>학기나 연간 일정에 맞춰 운영합니다</p></div>
     </div>
     <div class="flow">
-      <div><h4>문의·상담</h4><p>참여자, 인원, 일정, 예산을 알려주세요.</p></div>
-      <div><h4>맞춤 설계</h4><p>교육 목표에 맞는 프로그램과 견적을 제안합니다.</p></div>
-      <div><h4>운영</h4><p>강사가 기관을 찾아가 프로그램을 진행합니다.</p></div>
-      <div><h4>결과 공유</h4><p>운영 내용을 정리해 공유하고 다음 운영을 함께 계획합니다.</p></div>
+      <div><h4>문의·상담</h4><p>참여자와 일정 예산을 알려주세요</p></div>
+      <div><h4>맞춤 설계</h4><p>목표에 맞는 프로그램과 견적을 드립니다</p></div>
+      <div><h4>운영</h4><p>강사가 기관을 찾아가 진행합니다</p></div>
+      <div><h4>결과 공유</h4><p>결과를 공유하고 다음을 함께 계획합니다</p></div>
     </div>
   </div>
 </section>
 
 <section class="band">
   <div class="wrap">
-    <h2>우리 기관에 맞는 프로그램,<br>함께 설계해 보세요</h2>
+    <h2>우리 기관에 맞는 프로그램<br>함께 설계해 보세요</h2>
     <a href="#contact" class="btn">기관 협력 문의하기</a>
   </div>
 </section>
@@ -737,7 +776,7 @@
     <div class="head">
       <p class="en">CONTACT</p>
       <h2>기관 협력 · 견적 문의</h2>
-      <p>남겨주신 내용을 확인한 뒤 담당자 연락처로 회신드립니다.</p>
+      <p>확인 후 담당자 연락처로 회신드립니다</p>
     </div>
     <div class="contact-grid">
       <aside class="info">
@@ -780,9 +819,9 @@
         </div>
         <div class="fld"><label for="f-msg">어떤 상황에서 필요하신가요?</label><textarea id="f-msg" name="추가요청사항" placeholder="예) 위센터 여름방학 행사로, 학교 적응이 어려운 중학생 15명이 서로 친해지는 활동이 필요해요.&#10;예) 신학기 학생 적응 주간에 4학년 3개 반이 함께할 프로그램을 찾고 있어요."></textarea></div>
         <div class="consent">
-          <label><input type="checkbox" id="agree" required><span><b>(필수)</b> 문의 회신을 위한 개인정보 수집·이용에 동의합니다.</span></label>
+          <label><input type="checkbox" id="agree" required><span><b>(필수)</b> 문의 회신을 위한 개인정보 수집·이용에 동의합니다</span></label>
           <details><summary>내용 보기</summary>수집 항목: 기관명, 담당자명, 연락처, 이메일 · 이용 목적: 문의 확인 및 회신, 견적 안내 · 보유 기간: <span class="js-keep">문의 처리 완료 후 1년</span> · 동의하지 않으면 문의 회신이 어렵습니다.</details>
-          <label><input type="checkbox" id="agreeNews"><span><b>(선택)</b> 새 프로그램 소식을 받겠습니다.</span></label>
+          <label><input type="checkbox" id="agreeNews"><span><b>(선택)</b> 새 프로그램 소식을 받겠습니다</span></label>
           <details><summary>내용 보기</summary>수집 항목: 담당자명, 이메일 · 이용 목적: 새 프로그램 안내 · 보유 기간: 동의 철회 시까지 · 동의하지 않아도 문의에는 영향이 없습니다.</details>
         </div>
         <button type="submit" class="btn btn-main" id="submitBtn" style="justify-self:start">문의 보내기</button>
@@ -851,73 +890,73 @@ const DEFAULT = {
   // 대상별 운영 포인트: 청소년·청년·기업·노인 칸에 적으면, 해당 대상을 골랐을 때 카드에 강조되어 보입니다
   programs: [
     { 공개:'Y', 분류:'디저트테라피', 브랜드:'HEARTCHU', 이름:'내 마음 핱츄', 상태:'',
-      소개:'마음을 형상화한 수제 하트 페이스트리 위에 아이싱으로 지금의 감정을 점검하고 그림으로 표현한 뒤, 서로 나누는 프로그램입니다. 완성한 디저트는 함께 맛봅니다.',
+      소개:'마음을 닮은 하트 페이스트리 위에 지금의 감정을 그리고 나누는 시간',
       기대효과:'감정 인식|자기표현 훈련|공감과 소통', 대상:'청소년|청년|기업|노인',
       청소년:'친구들 앞에서 내 감정을 표현하고 들어 보는 또래 공감 활동으로', 청년:'바쁜 일상 속 미뤄 둔 내 마음을 점검하는 시간으로',
       기업:'동료의 요즘 마음을 알게 되는 팀 공감 활동으로', 노인:'손으로 그리고 꾸미며 지금의 마음을 이야기하는 활동으로',
       방식:'단회기|다회기', 운영시간:'', 인원:'', 참고:'', 사진:'cookie-art.jpg' },
     { 공개:'Y', 분류:'디저트테라피', 브랜드:'HEARTCHU', 이름:'감정 파르페', 상태:'',
-      소개:'긍정 감정과 부정 감정을 층층이 쌓으며 모두 내 마음의 일부로 받아들이고, 각각의 감정을 내가 어떻게 느끼는지 살펴보는 자기이해 프로그램입니다.',
+      소개:'좋은 감정도 힘든 감정도 층층이 쌓으며 내 마음으로 받아들이는 시간',
       기대효과:'감정 수용|자기이해|정서 인식', 대상:'청소년|청년|기업|노인',
       청소년:'화, 불안, 서운함처럼 낯선 감정의 이름을 알아 가는 시간으로', 청년:'좋은 감정만큼 힘든 감정도 괜찮다는 것을 경험하는 시간으로',
       기업:'업무 속에 쌓인 감정을 정리해 보는 시간으로', 노인:'살아오며 느낀 기쁨과 아쉬움을 함께 담아 보는 회상 활동으로',
       방식:'단회기|다회기', 운영시간:'', 인원:'', 참고:'', 사진:'' },
     { 공개:'Y', 분류:'디저트테라피', 브랜드:'HEARTCHU', 이름:'감정 초콜릿', 상태:'',
-      소개:'우울하거나 무기력하고 지칠 때, 초콜릿의 달콤함처럼 나를 다시 힘나게 하는 것은 무엇인지 찾아보는 감정 다루기 프로그램입니다.',
+      소개:'지치고 무기력할 때 나를 다시 힘나게 하는 것을 찾는 시간',
       기대효과:'감정 조절|회복탄력성|자기돌봄', 대상:'청소년|청년|기업|노인',
       청소년:'시험과 관계 스트레스에서 다시 일어서는 나만의 방법 찾기로', 청년:'지치고 무기력한 시기를 건너는 회복의 힘 찾기로',
       기업:'소진을 예방하고 나를 충전하는 방법 찾기로', 노인:'힘든 시간을 견뎌 온 나의 힘을 돌아보는 시간으로',
       방식:'단회기|다회기', 운영시간:'', 인원:'', 참고:'', 사진:'' },
     { 공개:'Y', 분류:'디저트테라피', 브랜드:'HEARTCHU', 이름:'내 마음 과자집', 상태:'',
-      소개:'과자집을 지으며 나를 지키는 마음의 벽을 건강하게 쌓는 방법을 배웁니다. 너무 높지도 낮지도 않은 나만의 경계를 함께 생각해 봅니다.',
+      소개:'과자집을 지으며 나를 지키는 마음의 벽을 건강하게 세우는 시간',
       기대효과:'건강한 경계 세우기|자기보호|관계 균형', 대상:'청소년|청년|기업|노인',
       청소년:'친구 관계에서 거절하고 나를 지키는 연습으로', 청년:'관계 속에서 나를 잃지 않는 경계 세우기로',
       기업:'일과 나 사이의 건강한 거리 두기로', 노인:'내 삶과 가족을 지켜 온 울타리를 돌아보는 시간으로',
       방식:'단회기|다회기', 운영시간:'', 인원:'', 참고:'', 사진:'' },
 
     { 공개:'Y', 분류:'강의형 심리교육', 브랜드:'마음지오', 이름:'스트레스 관리', 상태:'',
-      소개:'스트레스가 몸과 마음에 미치는 영향을 이해하고, 일상에서 바로 쓸 수 있는 대처 방법을 익히는 강의입니다.',
+      소개:'스트레스를 이해하고 일상에서 바로 쓰는 대처법을 익히는 강의',
       기대효과:'스트레스 이해|대처 전략|자기돌봄', 대상:'청소년|청년|기업|노인',
       청소년:'시험·진로·관계 스트레스를 다루는 방법', 청년:'취업·진로 불안과 번아웃 예방',
       기업:'직무 스트레스 관리와 소진 예방', 노인:'몸과 마음의 긴장을 푸는 생활 속 습관',
       방식:'특강|다회기', 운영시간:'', 인원:'', 참고:'', 사진:'' },
     { 공개:'Y', 분류:'강의형 심리교육', 브랜드:'마음지오', 이름:'의사소통', 상태:'',
-      소개:'나와 상대의 소통 방식을 이해하고, 마음을 다치지 않게 말하고 듣는 방법을 연습하는 강의입니다.',
+      소개:'서로의 소통 방식을 알고 마음을 지키며 말하고 듣는 법을 배우는 강의',
       기대효과:'소통 방식 이해|공감적 듣기|갈등 줄이기', 대상:'청소년|청년|기업|노인',
       청소년:'또래 갈등을 줄이는 대화법', 청년:'관계와 일에서 나를 표현하는 법',
       기업:'팀 안의 소통과 갈등 관리', 노인:'가족·이웃과 마음을 나누는 대화',
       방식:'특강|다회기', 운영시간:'', 인원:'', 참고:'', 사진:'' },
     { 공개:'Y', 분류:'강의형 심리교육', 브랜드:'마음지오', 이름:'진로 탐색', 상태:'',
-      소개:'Holland 직업적성 검사를 바탕으로 나의 흥미와 강점을 이해하고, 나에게 맞는 진로 방향을 함께 탐색하는 강의입니다.',
+      소개:'Holland 검사로 흥미와 강점을 알고 나에게 맞는 진로를 찾는 강의',
       기대효과:'자기이해|흥미·적성 탐색|진로 설계', 대상:'청소년|청년',
       청소년:'진로를 처음 고민하는 시기에 나를 알아보기', 청년:'취업·이직을 앞두고 나에게 맞는 일 찾기',
       기업:'', 노인:'', 방식:'특강|다회기', 운영시간:'', 인원:'', 참고:'', 사진:'' },
 
     { 공개:'Y', 분류:'집단상담 · 심리검사', 브랜드:'마음지오', 이름:'집단상담', 상태:'',
-      소개:'비슷한 고민을 가진 참여자들이 소그룹으로 모여 여러 회기에 걸쳐 마음을 나누고, 서로에게 힘이 되는 경험을 합니다. 상담심리 석사 출신 대표가 직접 진행합니다.',
+      소개:'비슷한 고민을 가진 참여자들이 소그룹으로 마음을 나누는 시간',
       기대효과:'자기이해|대인관계|정서 지원', 대상:'청소년|청년|기업',
       청소년:'학교 적응과 또래 관계를 주제로', 청년:'진로와 관계 고민을 나누는 소그룹으로',
       기업:'직원 정서 지원 소그룹으로', 노인:'',
       방식:'다회기', 운영시간:'', 인원:'', 참고:'', 사진:'' },
     { 공개:'확인 필요', 분류:'집단상담 · 심리검사', 브랜드:'마음지오', 이름:'심리검사 활용 교육', 상태:'',
-      소개:'MBTI, Holland 직업적성, 성격강점 검사를 실시하고, 결과를 바탕으로 나와 서로를 이해하는 시간을 갖습니다. 강의나 집단상담과 함께 운영하면 효과가 커집니다.',
+      소개:'MBTI와 Holland 성격강점 검사로 나와 서로를 이해하는 시간',
       기대효과:'자기이해|강점 발견|서로 이해하기', 대상:'청소년|청년|기업',
       청소년:'Holland 검사로 흥미와 진로 찾기', 청년:'성격강점 검사로 나의 강점 발견하기',
       기업:'MBTI로 팀원 사이의 차이 이해하기', 노인:'',
       방식:'단회기|다회기', 운영시간:'', 인원:'', 참고:'', 사진:'' },
 
     { 공개:'Y', 분류:'음악 정서지원', 브랜드:'PLOVE', 이름:'국악 마음 쉼 (가칭)', 상태:'준비 중',
-      소개:'익숙한 우리 가락을 듣고 함께 소리 내며 긴장을 풀고, 서로 마음을 나누는 음악 정서지원 프로그램입니다. 음악치료교육을 전공하고 있는 국악 전문 강사가 진행합니다.',
+      소개:'우리 가락과 장단으로 긴장을 풀고 함께 마음을 나누는 시간',
       기대효과:'정서 안정|자기표현|교류', 대상:'청소년|청년|기업|노인',
       청소년:'장단에 맞춰 함께 소리 내며 하나 되는 경험으로', 청년:'우리 소리로 잠시 쉬어 가는 시간으로',
       기업:'함께 장단을 맞추며 호흡을 맞추는 시간으로', 노인:'익숙한 가락으로 추억을 나누는 시간으로',
       방식:'단회기|다회기', 운영시간:'', 인원:'', 참고:'', 사진:'music-1.jpg|music-2.jpg|music-3.jpg|music-4.jpg|music-5.jpg' },
 
     { 공개:'Y', 분류:'행사 체험', 브랜드:'HEARTCHU', 이름:'핱츄 만들기 체험', 상태:'',
-      소개:'체육대회, 플리마켓, 축제 같은 기관 행사에서 누구나 즐겁게 참여하는 하트 디저트 만들기 체험 부스입니다.',
+      소개:'체육대회나 축제에서 누구나 즐기는 하트 디저트 만들기 부스',
       기대효과:'행사 참여형 체험|즐거운 추억', 대상:'청소년|청년|기업|노인',
       청소년:'', 청년:'', 기업:'', 노인:'',
-      방식:'행사 부스', 운영시간:'', 인원:'', 참고:'심리교육이 아닌 체험 활동으로 운영됩니다.', 사진:'' }
+      방식:'행사 부스', 운영시간:'', 인원:'', 참고:'심리교육이 아닌 체험 활동', 사진:'' }
   ],
   combos: [       // 대상별 추천 조합 { 대상, 이름, 구성, 설명 }
     { 대상:'청소년', 이름:'감정 표현과 또래 관계', 구성:'내 마음 핱츄 + 의사소통 강의', 설명:'Wee클래스, 학급 단위 프로그램' },
@@ -941,15 +980,18 @@ const DEFAULT = {
     { 기관명:'김천시 치매안심센터' }, { 기관명:'대구 청년센터' }, { 기관명:'칠곡 청년센터' },
     { 기관명:'영남대학교' }, { 기관명:'대구대학교 하나유니브' }, { 기관명:'초·중·고등학교 (대구·밀양·상주·포항 외)' }
   ],
-  cases: [       // { 기관:'', 프로그램:'', 내용:'', 사진:'' }  ← 기관명은 확인 후 입력
-    { 기관:'', 프로그램:'디저트테라피 · 성인', 내용:'하트 파이에 지금의 마음을 그리고, 서로의 작품을 소개하며 이야기를 나눕니다.', 사진:'workshop-adult.jpg' },
-    { 기관:'', 프로그램:'디저트테라피 · 아동', 내용:'말로 꺼내기 어려운 감정을 색과 모양으로 표현합니다.', 사진:'workshop-kids.jpg' },
-    { 기관:'', 프로그램:'아동·청소년 단체 프로그램', 내용:'여러 학급이 함께하는 단체 디저트 활동으로 운영합니다.', 사진:'workshop-class.jpg' }
+  cases: [       // { 분류:'디저트테라피' 또는 '마음챙김 프로그램', 기관:'', 프로그램:'', 내용:'', 사진:'' }  ← 기관명은 확인 후 입력
+    { 분류:'디저트테라피', 기관:'', 프로그램:'성인 디저트테라피', 내용:'하트 파이에 지금의 마음을 그리고 서로 소개하며 이야기 나눔', 사진:'workshop-adult.jpg' },
+    { 분류:'디저트테라피', 기관:'', 프로그램:'아동 디저트테라피', 내용:'말로 꺼내기 어려운 감정을 색과 모양으로 표현', 사진:'workshop-kids.jpg' },
+    { 분류:'디저트테라피', 기관:'', 프로그램:'학급 단체 프로그램', 내용:'여러 학급이 함께한 단체 디저트 활동', 사진:'workshop-class.jpg' },
+    { 공개:'확인 필요', 분류:'마음챙김 프로그램', 기관:'', 프로그램:'어르신 국악 정서지원', 내용:'색 천과 장단으로 함께 몸과 마음을 푸는 시간', 사진:'music-2.jpg' },
+    { 공개:'확인 필요', 분류:'마음챙김 프로그램', 기관:'', 프로그램:'아동 국악 수업', 내용:'북 장단을 함께 맞추며 하나 되는 경험', 사진:'music-1.jpg' },
+    { 공개:'확인 필요', 분류:'마음챙김 프로그램', 기관:'', 프로그램:'초등 장구 수업', 내용:'우리 장단을 익히며 집중하고 호흡 맞추기', 사진:'music-5.jpg' }
   ],
   reviews: [],    // { 후기:'', 작성자:'' }  ← 실제 받은 후기만
   team: [
     { 공개:'Y', 분야:'국악·전통음악 음악치료', 이름:'정보혜', 사진:'team-jungbohye.jpg',
-      소개:'아동, 특수아동, 청소년, 어르신까지 대상에 맞춘 국악 수업을 진행합니다.',
+      소개:'아동과 특수아동부터 어르신까지 대상에 맞춘 국악 수업',
       경력:'중앙대학교 국악교육대학원 음악치료교육 전공 석사 재학\n영남대학교 음악대학 국악(타악) 전공 졸업\n문화예술교육사 2급\n대구 국악 예술강사 (2019~현재)\n타악그룹 ‘공감’ 대표 (2023~현재)\n전 김천시립국악단 단원 (2020~2023)\n초등학교, 중학교, 청소년 문화의 집 사물놀이와 난타, 국악관현악 교육\n2018 예술문화대제전 국악(연희) 최우수상 (문화체육관광부장관상)\n임방울국악제, 부안 전국농악명인대회 대상 등 전국 국악대회 수상 다수' },
     { 공개:'확인 필요', 분야:'직업상담·드로잉', 이름:'강사' }
   ],
@@ -1051,11 +1093,11 @@ const AUDS = ['청소년', '청년', '기업', '노인'];
 let AUD = '전체', CAT = 'all';
 const CATS = { dessert: '디저트테라피', lecture: '강의형 심리교육', group: '집단상담 · 심리검사', music: '음악 정서지원', event: '행사 체험' };
 const GROUP_DESC = {
-  '디저트테라피': '플로브의 대표 프로그램입니다. 감정을 표현하고, 이해하고, 회복하고, 지키는 네 가지 주제로 운영하며 모든 연령이 함께할 수 있습니다.',
-  '강의형 심리교육': '꼭 필요한 마음건강 주제를 강의와 짧은 실습으로 전합니다. 특강, 연수, 다회기 과정으로 운영합니다.',
-  '집단상담 · 심리검사': '소그룹으로 깊이 있게 마음을 나누거나, 심리검사로 나와 서로를 이해합니다.',
-  '음악 정서지원': '음악을 매개로 마음을 편안하게 하고 서로 교류하는 프로그램을 준비하고 있습니다.',
-  '행사 체험': '심리교육이 아닌 즐거운 체험 활동으로 기관 행사를 함께합니다.'
+  '디저트테라피': '표현 이해 회복 경계의 네 가지 주제로 운영하는 대표 프로그램',
+  '강의형 심리교육': '꼭 필요한 마음건강 주제를 강의와 실습으로 전합니다',
+  '집단상담 · 심리검사': '소그룹 상담과 심리검사로 깊이 있게 만납니다',
+  '음악 정서지원': '음악으로 마음을 편안하게 하고 서로 교류합니다',
+  '행사 체험': '즐거운 체험 활동으로 기관 행사를 함께합니다'
 };
 const CAT_INFO = {
   all: ['', '플로브의 모든 프로그램 한눈에 보기'],
@@ -1073,6 +1115,7 @@ const CAT_ICON = {
   music: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>',
   event: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4M5 4h12l-2.5 4L17 12H5"/></svg>'
 };
+const CAT_KEY = Object.fromEntries(Object.entries(CATS).map(([k, v]) => [v, k]));
 const BRAND_COLOR = { HEARTCHU: 'var(--heart)', '마음지오': 'var(--maum)', PLOVE: 'var(--plove)' };
 function renderAud() {
   $('#aud').innerHTML = ['전체', ...AUDS].map(a =>
@@ -1086,12 +1129,12 @@ function progCard(p) {
   const brand = p.브랜드 === 'HEARTCHU' ? SETTINGS.HEART_EN : p.브랜드;
   const pics = list(p.사진);
   const pic = pics.length ? `<button type="button" class="pic-btn" data-pics="${esc(pics.join('|'))}" data-name="${esc(p.이름)}" aria-label="${esc(p.이름)} 수업 사진 ${pics.length}장 보기"><img src="${esc(imgSrc(pics[0]))}" alt="${esc(p.이름)} 현장 사진" loading="lazy">${pics.length > 1 ? `<span class="more">사진 ${pics.length}장 보기</span>` : ''}</button>`
-                   : (SETTINGS.DRAFT ? '<div class="ph">프로그램 사진</div>' : '');
+                   : `<div class="ph-ic">${CAT_ICON[CAT_KEY[p.분류]] || ''}</div>`;
   const auds = list(p.대상);
   const point = AUD !== '전체' && p[AUD] ? `<p class="point"><b>${esc(AUD)}</b>${esc(p[AUD])}</p>` : '';
   const soon = p.상태 ? `<span class="soon">${esc(p.상태)}</span>` : '';
   return `<article class="prog">
-    <div class="pic">${pic}</div>
+    <div class="pic ${CAT_KEY[p.분류] || ''}">${pic}</div>
     <div class="body">
       <span class="brand" style="color:${color}">${esc(brand)}</span>
       <h3>${esc(p.이름)}${soon}${draftTag(p)}</h3>
@@ -1099,12 +1142,7 @@ function progCard(p) {
       ${point}
       ${p.참고 ? `<p class="note">${esc(p.참고)}</p>` : ''}
       <div class="goals">${list(p.기대효과).map(g => `<span>${esc(g)}</span>`).join('')}</div>
-      <dl>
-        <dt>대상</dt><dd>${auds.length === AUDS.length ? '전 연령 (청소년 · 청년 · 기업 · 노인)' : esc(auds.join(' · '))}</dd>
-        <dt>운영 방식</dt><dd>${esc(list(p.방식).join(', '))}</dd>
-        <dt>운영 시간</dt><dd>${esc(p.운영시간 || '기관과 협의')}</dd>
-        <dt>인원</dt><dd>${esc(p.인원 || '기관과 협의')}</dd>
-      </dl>
+      <p class="meta"><span>${auds.length === AUDS.length ? '전 연령' : esc(auds.join(' '))}</span><span>${esc(list(p.방식).join(' '))}</span>${p.운영시간 ? `<span>${esc(p.운영시간)}</span>` : ''}${p.인원 ? `<span>${esc(p.인원)}</span>` : ''}</p>
       ${p.상태 ? '' : `<button type="button" class="btn btn-sm add" data-name="${esc(p.이름)}">이 프로그램 문의하기</button>`}
     </div></article>`;
 }
@@ -1120,7 +1158,7 @@ function renderPrograms() {
   const groups = [...new Set(shown.map(p => p.분류 || '기타'))];
   $('#progGroups').innerHTML = groups.map(g => `<div class="pgroup">
     <h3>${esc(g)}</h3>${GROUP_DESC[g] ? `<p>${esc(GROUP_DESC[g])}</p>` : '<p></p>'}
-    <div class="prog-grid">${shown.filter(p => (p.분류 || '기타') === g).map(progCard).join('')}</div></div>`).join('') || `<p class="empty-cat">${esc(AUD)} 대상으로 운영하는 프로그램은 기관에 맞춰 따로 설계해 제안드려요. 아래 '맞춤 설계 문의하기'로 알려주세요.</p>`;
+    <div class="prog-grid">${shown.filter(p => (p.분류 || '기타') === g).map(progCard).join('')}</div></div>`).join('') || `<p class="empty-cat">${esc(AUD)} 대상 프로그램은 기관에 맞춰 따로 설계해 드립니다</p>`;
 }
 $('#aud').addEventListener('click', e => {
   const b = e.target.closest('.chip'); if (!b) return;
@@ -1172,7 +1210,11 @@ function renderPortfolio(d) {
   $('#stats').hidden = !d.stats.length;
   $('#partnersWrap').hidden = !d.partners.length;
   $('#partners').innerHTML = d.partners.map(p => `<span>${esc(p.기관명)}</span>`).join('');
-  $('#cases').innerHTML = d.cases.map(c => `<article class="case">${c.사진 ? `<img src="${esc(imgSrc(c.사진))}" alt="${esc(c.기관)} ${esc(c.프로그램)} 현장" loading="lazy">` : ''}<div class="t"><small>${esc(c.기관)}</small><b>${esc(c.프로그램)}</b><p>${esc(c.내용)}</p></div></article>`).join('');
+  const CASE_DESC = { '디저트테라피': '디저트를 만들며 마음을 표현하고 나눈 현장', '마음챙김 프로그램': '음악과 강의로 마음을 돌본 현장' };
+  const caseCard = c => `<article class="case">${c.사진 ? `<img src="${esc(imgSrc(c.사진))}" alt="${esc(c.기관)} ${esc(c.프로그램)} 현장" loading="lazy">` : ''}<div class="t">${c.기관 ? `<small>${esc(c.기관)}</small>` : ''}<b>${esc(c.프로그램)}${draftTag(c)}</b><p>${esc(c.내용)}</p></div></article>`;
+  const cgroups = [...new Set(d.cases.map(c => c.분류 || '운영 사례'))];
+  $('#cases').innerHTML = cgroups.map(g => `<div class="case-group"><div class="case-head"><h3>${esc(g)}</h3>${CASE_DESC[g] ? `<p>${esc(CASE_DESC[g])}</p>` : ''}</div>
+    <div class="case-grid">${d.cases.filter(c => (c.분류 || '운영 사례') === g).map(caseCard).join('')}</div></div>`).join('');
   $('#reviews').innerHTML = d.reviews.map(r => `<figure class="review"><q>${esc(r.후기)}</q><cite>${esc(r.작성자)}</cite></figure>`).join('');
 }
 
