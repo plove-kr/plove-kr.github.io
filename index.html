@@ -256,6 +256,19 @@
   .prog { background: #fff; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; display: grid; grid-template-columns: 200px 1fr; }
   .prog .pic { background: var(--ivory); position: relative; min-height: 100%; }
   .prog .pic img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+  .pic-btn { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; cursor: zoom-in; display: block; }
+  .pic-btn img { transition: transform .3s ease; }
+  .pic-btn:hover img { transform: scale(1.04); }
+  .pic-btn .more { position: absolute; left: 10px; bottom: 10px; background: rgba(34,27,51,.78); color: #fff; font-size: 12.5px; font-weight: 700; padding: 5px 10px; border-radius: 999px; }
+  .lb { position: fixed; inset: 0; z-index: 100; background: rgba(20,16,30,.88); display: grid; grid-template-columns: 64px 1fr 64px; align-items: center; padding: 24px; }
+  .lb[hidden] { display: none; }
+  .lb figure { margin: 0; text-align: center; }
+  .lb img { max-width: 100%; max-height: calc(100vh - 110px); border-radius: 10px; object-fit: contain; }
+  .lb figcaption { color: #fff; font-size: 15px; margin-top: 12px; }
+  .lb-nav, .lb-x { color: #fff; background: rgba(255,255,255,.12); border: 0; border-radius: 50%; width: 48px; height: 48px; font-size: 28px; line-height: 1; cursor: pointer; justify-self: center; }
+  .lb-nav:hover, .lb-x:hover { background: rgba(255,255,255,.25); }
+  .lb-x { position: absolute; top: 18px; right: 18px; font-size: 20px; }
+  @media (max-width: 560px) { .lb { grid-template-columns: 40px 1fr 40px; padding: 12px; } .lb-nav { width: 36px; height: 36px; font-size: 22px; } }
   .prog .pic .ph { position: absolute; inset: 12px; border: 1px dashed #D6D1DA; border-radius: 8px; display: grid; place-items: center; font-size: 12.5px; color: var(--ink-3); text-align: center; }
   .prog .body { padding: 26px 28px; display: flex; flex-direction: column; }
   .prog .brand { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
@@ -781,6 +794,13 @@
 
 </main>
 
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="수업 사진">
+  <button type="button" class="lb-x" aria-label="닫기">✕</button>
+  <button type="button" class="lb-nav lb-prev" aria-label="이전 사진">‹</button>
+  <figure><img id="lbImg" alt=""><figcaption id="lbCap"></figcaption></figure>
+  <button type="button" class="lb-nav lb-next" aria-label="다음 사진">›</button>
+</div>
+
 <footer>
   <div class="wrap">
     <div class="foot">
@@ -891,7 +911,7 @@ const DEFAULT = {
       기대효과:'정서 안정|자기표현|교류', 대상:'청소년|청년|기업|노인',
       청소년:'장단에 맞춰 함께 소리 내며 하나 되는 경험으로', 청년:'우리 소리로 잠시 쉬어 가는 시간으로',
       기업:'함께 장단을 맞추며 호흡을 맞추는 시간으로', 노인:'익숙한 가락으로 추억을 나누는 시간으로',
-      방식:'단회기|다회기', 운영시간:'', 인원:'', 참고:'', 사진:'' },
+      방식:'단회기|다회기', 운영시간:'', 인원:'', 참고:'', 사진:'music-1.jpg|music-2.jpg|music-3.jpg|music-4.jpg|music-5.jpg' },
 
     { 공개:'Y', 분류:'행사 체험', 브랜드:'HEARTCHU', 이름:'핱츄 만들기 체험', 상태:'',
       소개:'체육대회, 플리마켓, 축제 같은 기관 행사에서 누구나 즐겁게 참여하는 하트 디저트 만들기 체험 부스입니다.',
@@ -1064,7 +1084,8 @@ function renderAud() {
 function progCard(p) {
   const color = BRAND_COLOR[p.브랜드] || 'var(--maum)';
   const brand = p.브랜드 === 'HEARTCHU' ? SETTINGS.HEART_EN : p.브랜드;
-  const pic = p.사진 ? `<img src="${esc(imgSrc(p.사진))}" alt="${esc(p.이름)} 현장 사진" loading="lazy">`
+  const pics = list(p.사진);
+  const pic = pics.length ? `<button type="button" class="pic-btn" data-pics="${esc(pics.join('|'))}" data-name="${esc(p.이름)}" aria-label="${esc(p.이름)} 수업 사진 ${pics.length}장 보기"><img src="${esc(imgSrc(pics[0]))}" alt="${esc(p.이름)} 현장 사진" loading="lazy">${pics.length > 1 ? `<span class="more">사진 ${pics.length}장 보기</span>` : ''}</button>`
                    : (SETTINGS.DRAFT ? '<div class="ph">프로그램 사진</div>' : '');
   const auds = list(p.대상);
   const point = AUD !== '전체' && p[AUD] ? `<p class="point"><b>${esc(AUD)}</b>${esc(p[AUD])}</p>` : '';
@@ -1104,6 +1125,31 @@ function renderPrograms() {
 $('#aud').addEventListener('click', e => {
   const b = e.target.closest('.chip'); if (!b) return;
   AUD = b.dataset.v; renderAud(); renderPrograms();
+});
+/* 수업 사진 크게 보기 */
+let LB = { pics: [], i: 0, name: '' };
+function lbShow() {
+  $('#lbImg').src = imgSrc(LB.pics[LB.i]);
+  $('#lbImg').alt = LB.name + ' 수업 사진 ' + (LB.i + 1);
+  $('#lbCap').textContent = `${LB.name} · ${LB.i + 1} / ${LB.pics.length}`;
+  $$('.lb-nav').forEach(b => b.hidden = LB.pics.length < 2);
+}
+function lbClose() { $('#lb').hidden = true; document.body.style.overflow = ''; }
+$('#progGroups').addEventListener('click', e => {
+  const b = e.target.closest('.pic-btn'); if (!b) return;
+  LB = { pics: list(b.dataset.pics), i: 0, name: b.dataset.name };
+  lbShow(); $('#lb').hidden = false; document.body.style.overflow = 'hidden'; $('#lb .lb-x').focus();
+});
+$('#lb').addEventListener('click', e => {
+  if (e.target.closest('.lb-prev')) { LB.i = (LB.i + LB.pics.length - 1) % LB.pics.length; lbShow(); }
+  else if (e.target.closest('.lb-next')) { LB.i = (LB.i + 1) % LB.pics.length; lbShow(); }
+  else if (e.target.closest('.lb-x') || e.target.id === 'lb') lbClose();
+});
+document.addEventListener('keydown', e => {
+  if ($('#lb').hidden) return;
+  if (e.key === 'Escape') lbClose();
+  if (e.key === 'ArrowRight') { LB.i = (LB.i + 1) % LB.pics.length; lbShow(); }
+  if (e.key === 'ArrowLeft') { LB.i = (LB.i + LB.pics.length - 1) % LB.pics.length; lbShow(); }
 });
 $('#progGroups').addEventListener('click', e => {
   const b = e.target.closest('.add'); if (!b) return;
